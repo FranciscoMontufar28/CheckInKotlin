@@ -41,8 +41,15 @@ class Mensaje {
                 Errores.ERROR_PERMISO_NEGADO->{
                     mensaje = "La app no tiene persimos para obtner ubicación"
                 }
+                Errores.ERROR_QUERY->{
+                    mensaje = "Ocurrio un error en la consulta de datos"
+                }
             }
             Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
+        }
+
+        fun mensajeError(context: Context, error:String){
+            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         }
     }
 }
