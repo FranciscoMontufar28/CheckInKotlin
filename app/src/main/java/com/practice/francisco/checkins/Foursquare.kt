@@ -11,8 +11,8 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
     private val CODIGO_CONEXION = 200
     private val CODIGO_INTERCAMBIO_TOKEN = 201
 
-    private val CLIENT_ID = ""
-    private val CLIENT_SECRET = ""
+    private val CLIENT_ID = Key.CLIENT_ID
+    private val CLIENT_SECRET = Key.CLIENT_SECRET
 
     private val SETTINGS = "settings"
     private val ACCESS_TOKEN = "accessToken"
@@ -35,7 +35,7 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         }
     }
 
-    private fun validarActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    public fun validarActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             CODIGO_CONEXION -> {
                 conexionCompleta(resultCode, data)
@@ -73,8 +73,9 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
             val accessToken = respuestaToken.accessToken
             if (!guardarToken(accessToken)) {
                 Mensaje.mensajeError(activity.applicationContext, Errores.ERROR_GUARDAR_TOKEN)
+                //navegarSiguienteActividad(activityDestino)
             } else {
-                navegarSiguienteActividad(activityDestino)
+                navegarSiguienteActividad()
             }
 
 
@@ -83,7 +84,7 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         }
     }
 
-    private fun hayToken(): Boolean {
+    fun hayToken(): Boolean {
         return obtenerToken() != ""
     }
 
@@ -105,7 +106,7 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         return true
     }
 
-    private fun navegarSiguienteActividad(activityDestino: AppCompatActivity){
+    fun navegarSiguienteActividad(){
         activity.startActivity(Intent(this.activity, activityDestino::class.java))
         activity.finish()
     }

@@ -9,3 +9,4 @@
 /build
 /captures
 .externalNativeBuild
+/app/src/main/java/com/practice/francisco/checkins/Key.kt
