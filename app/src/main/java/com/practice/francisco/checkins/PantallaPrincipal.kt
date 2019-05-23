@@ -2,11 +2,21 @@ package com.practice.francisco.checkins
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.google.android.gms.location.LocationResult
+import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
+import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
+import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
 
 class PantallaPrincipal : AppCompatActivity() {
+
+    var lista: RecyclerView? = null
+    var adaptador: AdaptadorCustom? =null
+    var layoutManager: RecyclerView.LayoutManager? = null
 
     var ubicacion: Ubicacion? = null
     var foursquare: Foursquare? = null
@@ -16,6 +26,13 @@ class PantallaPrincipal : AppCompatActivity() {
         setContentView(R.layout.activity_pantalla_principal)
 
         foursquare = Foursquare(this, this)
+
+        lista = findViewById(R.id.rvLugares)
+        lista?.setHasFixedSize(true)
+
+        layoutManager = LinearLayoutManager(this)
+        lista?.layoutManager = layoutManager
+
         if (foursquare?.hayToken()!!) {
             ubicacion = Ubicacion(this, object : UbicacionListener {
                 override fun ubicacionResponse(locationResult: LocationResult) {
@@ -28,6 +45,7 @@ class PantallaPrincipal : AppCompatActivity() {
                     ).show()*/
                     foursquare?.obtenerVenues(lat, lon, object : ObtenerVenuesInterface{
                         override fun venuesGenerados(venues: ArrayList<FoursquareAPIRequestVenues.Venue>) {
+                            implementacionRecyclerView(venues)
                             for (venue in venues){
                                 Log.d("VENUE", venue.name)
                             }
@@ -36,6 +54,29 @@ class PantallaPrincipal : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    private fun implementacionRecyclerView(lugares:ArrayList<FoursquareAPIRequestVenues.Venue>){
+        adaptador = AdaptadorCustom(lugares, object: ClickListener {
+            override fun onClick(vista: View, index: Int) {
+                Toast.makeText(applicationContext, lugares.get(index).name, Toast.LENGTH_SHORT).show()
+            }
+        },object: LongClickListener {
+            override fun longClick(vista: View, index: Int) {
+                /*if(!isActionMode){
+                    startSupportActionMode(callback)
+                    isActionMode = true
+                    adaptador?.seleccionarItem(index)
+                }else{
+                    //hacer selecciones o deselecciones
+                    adaptador?.seleccionarItem(index)
+                }
+                actionMode?.title = adaptador?.obtenerNumeroElementosSeleccionados().toString()+" seleccionados"
+                */
+            }
+
+        })
+        lista?.adapter = adaptador
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
