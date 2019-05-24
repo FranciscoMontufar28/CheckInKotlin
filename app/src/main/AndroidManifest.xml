@@ -21,9 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".PantallaPrincipal"></activity>
-        <activity android:name="com.foursquare.android.nativeoauth.TokenExchangeActivity"
-            android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".PantallaPrincipal"/>
+        <activity
+                android:name="com.foursquare.android.nativeoauth.TokenExchangeActivity"
+                android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".DetallesVenue">
+        </activity>
     </application>
 
 </manifest>

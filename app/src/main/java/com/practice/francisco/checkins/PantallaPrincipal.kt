@@ -1,5 +1,6 @@
 package com.practice.francisco.checkins
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.location.LocationResult
+import com.google.gson.Gson
 import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
 import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
@@ -20,6 +22,11 @@ class PantallaPrincipal : AppCompatActivity() {
 
     var ubicacion: Ubicacion? = null
     var foursquare: Foursquare? = null
+
+    companion object {
+        val VENUE_ACTUAL = "com.practice.francisco.checkins.PantallaPrincipal"
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +66,12 @@ class PantallaPrincipal : AppCompatActivity() {
     private fun implementacionRecyclerView(lugares:ArrayList<FoursquareAPIRequestVenues.Venue>){
         adaptador = AdaptadorCustom(lugares, object: ClickListener {
             override fun onClick(vista: View, index: Int) {
-                Toast.makeText(applicationContext, lugares.get(index).name, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, lugares.get(index).name, Toast.LENGTH_SHORT).show()
+                val venueToJson = Gson()
+                val venueActualString = venueToJson.toJson(lugares.get(index))
+                val intent = Intent(applicationContext, DetallesVenue::class.java)
+                intent.putExtra(VENUE_ACTUAL, venueActualString)
+                startActivity(intent)
             }
         },object: LongClickListener {
             override fun longClick(vista: View, index: Int) {
