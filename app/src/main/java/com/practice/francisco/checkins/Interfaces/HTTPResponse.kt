@@ -1,4 +1,4 @@
-package com.practice.francisco.checkins
+package com.practice.francisco.checkins.Interfaces
 
 import java.net.CacheResponse
 

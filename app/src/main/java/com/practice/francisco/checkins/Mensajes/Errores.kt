@@ -1,4 +1,4 @@
-package com.practice.francisco.checkins
+package com.practice.francisco.checkins.Mensajes
 
 enum class Errores {
     NO_HAY_RED,

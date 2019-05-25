@@ -1,20 +1,17 @@
 package com.practice.francisco.checkins.RecyclerViewPrincipal
 
-import android.content.Context
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
-import com.practice.francisco.checkins.FoursquareAPIRequestVenues
 import com.practice.francisco.checkins.R
+import com.practice.francisco.checkins.Foursquare.Venue
 import kotlinx.android.synthetic.main.template_venues.view.*
 
-class AdaptadorCustom(items:ArrayList<FoursquareAPIRequestVenues.Venue>, var listener: ClickListener, var longClickListener: LongClickListener):RecyclerView.Adapter<AdaptadorCustom.ViewHolder>(){
-    var items:ArrayList<FoursquareAPIRequestVenues.Venue>? = null
+class AdaptadorCustom(items:ArrayList<Venue>, var listener: ClickListener, var longClickListener: LongClickListener):RecyclerView.Adapter<AdaptadorCustom.ViewHolder>(){
+    var items:ArrayList<Venue>? = null
     var multiSeleccion = false
     var itemsSeleccionados:ArrayList<Int>? = null
     var viewHolder:ViewHolder? = null
@@ -79,7 +76,7 @@ class AdaptadorCustom(items:ArrayList<FoursquareAPIRequestVenues.Venue>, var lis
 
     fun eliminarSeleccionados(){
         if (itemsSeleccionados?.count()!!>0){
-            var itemsEliminados = ArrayList<FoursquareAPIRequestVenues.Venue>()
+            var itemsEliminados = ArrayList<Venue>()
             for (index in itemsSeleccionados!!){
                 itemsEliminados.add(items?.get(index)!!)
             }

@@ -1,12 +1,15 @@
- package com.practice.francisco.checkins
+ package com.practice.francisco.checkins.Actividades
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
+import android.widget.Toast
 import com.google.gson.Gson
+import com.practice.francisco.checkins.Foursquare.Foursquare
+import com.practice.francisco.checkins.Interfaces.UsuariosInterface
+import com.practice.francisco.checkins.R
+import com.practice.francisco.checkins.Foursquare.User
+import com.practice.francisco.checkins.Foursquare.Venue
 import kotlinx.android.synthetic.main.activity_detalles_venue.*
-import kotlinx.android.synthetic.main.template_venues.*
 
  class DetallesVenue : AppCompatActivity() {
 
@@ -24,7 +27,7 @@ import kotlinx.android.synthetic.main.template_venues.*
 
         val venueActualString = intent.getStringExtra(PantallaPrincipal.VENUE_ACTUAL)
         val gson = Gson()
-        val venueActual = gson.fromJson(venueActualString, FoursquareAPIRequestVenues.Venue::class.java)
+        val venueActual = gson.fromJson(venueActualString, Venue::class.java)
         //Log.d("venueActual", venueActual.name)
 
         tvNombre.text = venueActual.name
@@ -35,7 +38,20 @@ import kotlinx.android.synthetic.main.template_venues.*
         tvUsers.text = venueActual.stats?.usersCount.toString()
         tvTips.text = venueActual.stats?.tipCount.toString()
 
+        val foursquare = Foursquare(
+            this,
+            DetallesVenue()
+        )
 
-        //tvNombre.text = venueActual.name
+        if (foursquare.hayToken()){
+            //foursquare.nuevoCheckin(venueActual.id, venueActual.location!!, "Hola%20mundo")
+            foursquare.obtenerUsuarioActual(object : UsuariosInterface {
+                override fun obtenerUsuarioActual(usuario: User) {
+                    Toast.makeText(applicationContext, usuario.firstName, Toast.LENGTH_SHORT).show()
+                }
+
+            })
+
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.practice.francisco.checkins
+package com.practice.francisco.checkins.Actividades
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,12 +7,17 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
+import com.practice.francisco.checkins.*
+import com.practice.francisco.checkins.Foursquare.Foursquare
+import com.practice.francisco.checkins.Foursquare.Venue
+import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
+import com.practice.francisco.checkins.Interfaces.UbicacionListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
 import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
+import com.practice.francisco.checkins.Utilidades.Ubicacion
 
 class PantallaPrincipal : AppCompatActivity() {
 
@@ -24,7 +29,7 @@ class PantallaPrincipal : AppCompatActivity() {
     var foursquare: Foursquare? = null
 
     companion object {
-        val VENUE_ACTUAL = "com.practice.francisco.checkins.PantallaPrincipal"
+        val VENUE_ACTUAL = "com.practice.francisco.checkins.Actividades.PantallaPrincipal"
     }
 
 
@@ -50,10 +55,11 @@ class PantallaPrincipal : AppCompatActivity() {
                         locationResult.lastLocation.latitude.toString(),
                         Toast.LENGTH_SHORT
                     ).show()*/
-                    foursquare?.obtenerVenues(lat, lon, object : ObtenerVenuesInterface{
-                        override fun venuesGenerados(venues: ArrayList<FoursquareAPIRequestVenues.Venue>) {
+                    foursquare?.obtenerVenues(lat, lon, object :
+                        ObtenerVenuesInterface {
+                        override fun venuesGenerados(venues: ArrayList<Venue>) {
                             implementacionRecyclerView(venues)
-                            for (venue in venues){
+                            for (venue in venues) {
                                 Log.d("VENUE", venue.name)
                             }
                         }
@@ -63,7 +69,7 @@ class PantallaPrincipal : AppCompatActivity() {
         }
     }
 
-    private fun implementacionRecyclerView(lugares:ArrayList<FoursquareAPIRequestVenues.Venue>){
+    private fun implementacionRecyclerView(lugares:ArrayList<Venue>){
         adaptador = AdaptadorCustom(lugares, object: ClickListener {
             override fun onClick(vista: View, index: Int) {
                 //Toast.makeText(applicationContext, lugares.get(index).name, Toast.LENGTH_SHORT).show()

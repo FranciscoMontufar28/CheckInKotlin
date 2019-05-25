@@ -1,16 +1,19 @@
-package com.practice.francisco.checkins
+package com.practice.francisco.checkins.Utilidades
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.practice.francisco.checkins.Interfaces.UbicacionListener
+import com.practice.francisco.checkins.Mensajes.Errores
+import com.practice.francisco.checkins.Mensajes.Mensaje
+import com.practice.francisco.checkins.Mensajes.Mensajes
 
-class Ubicacion(var activity: AppCompatActivity, ubicacionListener:UbicacionListener) {
+class Ubicacion(var activity: AppCompatActivity, ubicacionListener: UbicacionListener) {
 
     private val permisoFineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     private val permisoCoarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
