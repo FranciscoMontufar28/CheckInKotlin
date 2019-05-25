@@ -27,6 +27,10 @@
                 android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".Actividades.DetallesVenue">
         </activity>
+        <activity android:name=".Actividades.Categorias">
+        </activity>
+        <activity android:name=".Actividades.VenuesPorCategoria">
+        </activity>
     </application>
 
 </manifest>

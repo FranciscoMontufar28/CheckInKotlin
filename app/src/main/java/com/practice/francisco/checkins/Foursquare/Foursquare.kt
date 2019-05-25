@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
+import com.practice.francisco.checkins.Interfaces.CategoriasVenuesInterface
 import com.practice.francisco.checkins.Interfaces.HTTPResponse
 import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
 import com.practice.francisco.checkins.Interfaces.UsuariosInterface
@@ -222,6 +223,42 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
 
                 if (meta?.code == 200) {
                     usuarioActualInterface.obtenerUsuarioActual(objetoRespuesta.response?.user!!)
+                    //enviar mensaje exito
+                } else {
+                    if (meta?.code == 400) {
+                        //problema coordenadas
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            meta?.errorDetail
+                        )
+                    } else {
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            Errores.ERROR_QUERY
+                        )
+                    }
+                }
+            }
+        })
+    }
+
+    fun cargarCategorias(categoriasInterface:CategoriasVenuesInterface){
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "categories/"
+        val token = "oauth_token=" + obtenerToken()
+        val query ="?"+ token + "&" + VERSION
+        val url = URL_BASE + seccion + metodo + query
+
+        network.httpRequest(activity.applicationContext, url, object :
+            HTTPResponse {
+            override fun httpResponseSuccess(response: String) {
+                val gson = Gson()
+                val objetoRespuesta = gson.fromJson(response, FoursquareAPICategorias::class.java)
+                var meta = objetoRespuesta.meta
+
+                if (meta?.code == 200) {
+                    categoriasInterface.categoriasVenues(objetoRespuesta.response?.categories!!)
                     //enviar mensaje exito
                 } else {
                     if (meta?.code == 400) {

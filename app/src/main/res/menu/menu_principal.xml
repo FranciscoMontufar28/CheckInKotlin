@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Categorias" app:showAsAction="always" android:icon="@drawable/icono_categorias"
+          android:id="@+id/iconoCategorias"/>
+    <item android:title="Favoritos" app:showAsAction="always" android:icon="@drawable/icono_favoritos"
+          android:id="@+id/iconoFavoritos"/>
+    <item android:title="Perfil" app:showAsAction="never" android:id="@+id/iconoPerfil"/>
+    <item android:title="Cerrar sesión" app:showAsAction="never" android:id="@+id/iconoCerrarSesion"/>
+</menu>

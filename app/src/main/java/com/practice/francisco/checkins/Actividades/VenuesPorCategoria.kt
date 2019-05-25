@@ -7,43 +7,36 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
-import com.practice.francisco.checkins.*
 import com.practice.francisco.checkins.Foursquare.Foursquare
 import com.practice.francisco.checkins.Foursquare.Venue
 import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
 import com.practice.francisco.checkins.Interfaces.UbicacionListener
+import com.practice.francisco.checkins.R
 import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
 import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
 import com.practice.francisco.checkins.Utilidades.Ubicacion
 
-class PantallaPrincipal : AppCompatActivity() {
+class VenuesPorCategoria : AppCompatActivity() {
 
     var lista: RecyclerView? = null
     var adaptador: AdaptadorCustom? =null
     var layoutManager: RecyclerView.LayoutManager? = null
 
+    ///Toolbar
+    var toolbar: Toolbar? = null
+
     var ubicacion: Ubicacion? = null
     var foursquare: Foursquare? = null
 
-    ///Toolbar
-    var toolbar:Toolbar? = null
-
-    companion object {
-        val VENUE_ACTUAL = "com.practice.francisco.checkins.Actividades.PantallaPrincipal"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_principal)
+        setContentView(R.layout.activity_venues_por_categoria)
 
         foursquare = Foursquare(this, this)
-
         lista = findViewById(R.id.rvLugares)
         lista?.setHasFixedSize(true)
 
@@ -76,6 +69,12 @@ class PantallaPrincipal : AppCompatActivity() {
         }
     }
 
+    fun initToolbar(){
+        toolbar = findViewById(R.id.appToolbar)
+        toolbar?.setTitle(R.string.app_name)
+        setSupportActionBar(toolbar)
+    }
+
     private fun implementacionRecyclerView(lugares:ArrayList<Venue>){
         adaptador = AdaptadorCustom(lugares, object: ClickListener {
             override fun onClick(vista: View, index: Int) {
@@ -83,7 +82,7 @@ class PantallaPrincipal : AppCompatActivity() {
                 val venueToJson = Gson()
                 val venueActualString = venueToJson.toJson(lugares.get(index))
                 val intent = Intent(applicationContext, DetallesVenue::class.java)
-                intent.putExtra(VENUE_ACTUAL, venueActualString)
+                intent.putExtra(PantallaPrincipal.VENUE_ACTUAL, venueActualString)
                 startActivity(intent)
             }
         },object: LongClickListener {
@@ -116,30 +115,5 @@ class PantallaPrincipal : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         ubicacion?.detenerActualizacionUbicacion()
-    }
-
-    fun initToolbar(){
-        toolbar = findViewById(R.id.appToolbar)
-        toolbar?.setTitle(R.string.app_name)
-        setSupportActionBar(toolbar)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_principal, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.iconoCategorias -> {
-                val intent = Intent(this, Categorias::class.java)
-                startActivity(intent)
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-
     }
 }
