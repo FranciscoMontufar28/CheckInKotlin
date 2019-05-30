@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CheckIns</string>
+    <string name="app_categories">Categorias</string>
 </resources>

@@ -113,3 +113,20 @@ class FoursquareAPICategorias{
 class CategoriasResponse{
     var categories:ArrayList<Category>? = null
 }
+
+class LikeResponse{
+    var meta:Meta? = null
+}
+
+class VenuesDeLikes{
+    var meta: Meta? = null
+    var response: VenuesDeLikesResponse? = null
+}
+
+class VenuesDeLikesResponse{
+    var venues:VenuesDeLikesObject? = null
+}
+
+class VenuesDeLikesObject{
+    var items:ArrayList<Venue> ? = null
+}

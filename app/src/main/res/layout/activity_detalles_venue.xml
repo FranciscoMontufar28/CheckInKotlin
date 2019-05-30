@@ -7,6 +7,15 @@
         android:layout_height="match_parent"
         tools:context=".Actividades.DetallesVenue" android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/appToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/Base.ThemeOverlay.AppCompat.Light"/>
+
     <TextView
             android:text="TextView"
             android:layout_width="match_parent"
@@ -35,4 +44,12 @@
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/tvTips"/>
+    <Button
+            android:text="check-in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/bCheckin"/>
+    <Button
+            android:text="like"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/bLike"/>
 </LinearLayout>

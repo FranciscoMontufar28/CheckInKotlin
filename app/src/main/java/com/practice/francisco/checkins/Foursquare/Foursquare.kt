@@ -5,10 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
-import com.practice.francisco.checkins.Interfaces.CategoriasVenuesInterface
-import com.practice.francisco.checkins.Interfaces.HTTPResponse
-import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
-import com.practice.francisco.checkins.Interfaces.UsuariosInterface
+import com.practice.francisco.checkins.Interfaces.*
 import com.practice.francisco.checkins.Mensajes.Errores
 import com.practice.francisco.checkins.Mensajes.Mensaje
 import com.practice.francisco.checkins.Mensajes.Mensajes
@@ -260,6 +257,113 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
                 if (meta?.code == 200) {
                     categoriasInterface.categoriasVenues(objetoRespuesta.response?.categories!!)
                     //enviar mensaje exito
+                } else {
+                    if (meta?.code == 400) {
+                        //problema coordenadas
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            meta?.errorDetail
+                        )
+                    } else {
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            Errores.ERROR_QUERY
+                        )
+                    }
+                }
+            }
+        })
+    }
+
+    fun obtenerVenues(lat: String, lon: String, categoryId:String, obtenerVenuesInterface: ObtenerVenuesInterface) {
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "search/"
+        val ll = "ll=" + lat + "," + lon
+        var categoria = "categoryId="+categoryId
+        val token = "oauth_token=" + obtenerToken()
+        var url = URL_BASE + seccion + metodo + "?" + ll + "&" + categoria+"&"+ token + "&" + VERSION
+        network.httpRequest(activity.applicationContext, url, object :
+            HTTPResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, FoursquareAPIRequestVenues::class.java)
+                var meta = objetoRespuesta.meta
+                var venues = objetoRespuesta.response?.venues!!
+                if (meta?.code == 200) {
+                    //enviar mensaje exito
+                    obtenerVenuesInterface.venuesGenerados(venues)
+                } else {
+                    if (meta?.code == 400) {
+                        //problema coordenadas
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            meta?.errorDetail
+                        )
+                    } else {
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            Errores.ERROR_QUERY
+                        )
+                    }
+                }
+            }
+        })
+    }
+
+    fun nuevoLike(id: String) {
+        val network = Network(activity)
+        val seccion = "venues/"
+        val metodo = "like/"
+        val token = "oauth_token=" + obtenerToken()
+        val query ="?" + token + "&" + VERSION
+        val url = URL_BASE + seccion + id + "/"+ metodo + query
+
+        network.httpPostRequest(activity.applicationContext, url, object :
+            HTTPResponse {
+            override fun httpResponseSuccess(response: String) {
+                //Log.d("nuevoLike", response)
+                val gson = Gson()
+                val objetoRespuesta = gson.fromJson(response, LikeResponse::class.java)
+                var meta = objetoRespuesta.meta
+
+                if (meta?.code == 200) {
+                    //enviar mensaje exito
+                    Mensaje.mensaje(activity.applicationContext, Mensajes.LIKE_SUCCESS)
+                } else {
+                    if (meta?.code == 400) {
+                        //problema coordenadas
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            meta?.errorDetail
+                        )
+                    } else {
+                        Mensaje.mensajeError(
+                            activity.applicationContext,
+                            Errores.ERROR_QUERY
+                        )
+                    }
+                }
+            }
+        })
+    }
+
+    fun obtenerVenuesDeLike(venuesForLikeInterface:VenuesForLikeInterface){
+        val network = Network(activity)
+        val seccion = "users/"
+        val metodo = "self/"
+        val token = "oauth_token=" + obtenerToken()
+        var url = URL_BASE + seccion + metodo + "venuelikes?limit=10&"+ token + "&" + VERSION
+        network.httpRequest(activity.applicationContext, url, object :
+            HTTPResponse {
+            override fun httpResponseSuccess(response: String) {
+                var gson = Gson()
+                var objetoRespuesta = gson.fromJson(response, VenuesDeLikes::class.java)
+                var meta = objetoRespuesta.meta
+                var venues = objetoRespuesta.response?.venues?.items!!
+                if (meta?.code == 200) {
+                    //enviar mensaje exito
+                    venuesForLikeInterface.venuesGenerados(venues)
                 } else {
                     if (meta?.code == 400) {
                         //problema coordenadas

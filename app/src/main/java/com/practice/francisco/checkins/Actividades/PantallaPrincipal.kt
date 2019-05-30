@@ -17,6 +17,7 @@ import com.practice.francisco.checkins.Foursquare.Foursquare
 import com.practice.francisco.checkins.Foursquare.Venue
 import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
 import com.practice.francisco.checkins.Interfaces.UbicacionListener
+import com.practice.francisco.checkins.Interfaces.VenuesForLikeInterface
 import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
 import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
@@ -134,6 +135,14 @@ class PantallaPrincipal : AppCompatActivity() {
             R.id.iconoCategorias -> {
                 val intent = Intent(this, Categorias::class.java)
                 startActivity(intent)
+                return true
+            }
+            R.id.iconoFavoritos->{
+                foursquare?.obtenerVenuesDeLike(object : VenuesForLikeInterface{
+                    override fun venuesGenerados(venues: ArrayList<Venue>) {
+                        Log.d("VenuesForLike", venues.count().toString())
+                    }
+                })
                 return true
             }
             else -> {

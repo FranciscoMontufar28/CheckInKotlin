@@ -26,6 +26,10 @@ class Categorias : AppCompatActivity() {
     ///Toolbar
     var toolbar: Toolbar? = null
 
+    companion object {
+        val CATEGORIA_ACTUAL = "com.practice.francisco.checkins.Actividades.Categorias"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categorias)
@@ -52,12 +56,12 @@ class Categorias : AppCompatActivity() {
     private fun implementacionRecyclerView(categorias:ArrayList<Category>){
         adaptador = AdaptadorCustom(categorias, object: ClickListener {
             override fun onClick(vista: View, index: Int) {
-                //Toast.makeText(applicationContext, lugares.get(index).name, Toast.LENGTH_SHORT).show()
-                /*val venueToJson = Gson()
-                val venueActualString = venueToJson.toJson(categorias.get(index))
-                val intent = Intent(applicationContext, DetallesVenue::class.java)
-                intent.putExtra(PantallaPrincipal.VENUE_ACTUAL, venueActualString)
-                startActivity(intent)*/
+
+                val categoriaToJson = Gson()
+                val categoriaActualString = categoriaToJson.toJson(categorias.get(index))
+                val intent = Intent(applicationContext, VenuesPorCategoria::class.java)
+                intent.putExtra(Categorias.CATEGORIA_ACTUAL, categoriaActualString)
+                startActivity(intent)
             }
         },object: LongClickListener {
             override fun longClick(vista: View, index: Int) {
@@ -70,7 +74,11 @@ class Categorias : AppCompatActivity() {
 
     fun initToolbar(){
         toolbar = findViewById(R.id.appToolbar)
-        toolbar?.setTitle(R.string.app_name)
+        toolbar?.setTitle(R.string.app_categories)
         setSupportActionBar(toolbar)
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.setNavigationOnClickListener { finish() }
     }
 }

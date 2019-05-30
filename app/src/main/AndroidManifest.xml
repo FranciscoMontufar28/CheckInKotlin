@@ -27,7 +27,7 @@
                 android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".Actividades.DetallesVenue">
         </activity>
-        <activity android:name=".Actividades.Categorias">
+        <activity android:name=".Actividades.Categorias" android:parentActivityName=".Actividades.PantallaPrincipal">
         </activity>
         <activity android:name=".Actividades.VenuesPorCategoria">
         </activity>

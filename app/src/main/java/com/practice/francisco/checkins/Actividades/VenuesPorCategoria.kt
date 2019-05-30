@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
+import com.practice.francisco.checkins.Foursquare.Category
 import com.practice.francisco.checkins.Foursquare.Foursquare
 import com.practice.francisco.checkins.Foursquare.Venue
 import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
@@ -40,22 +41,24 @@ class VenuesPorCategoria : AppCompatActivity() {
         lista = findViewById(R.id.rvLugares)
         lista?.setHasFixedSize(true)
 
-        initToolbar()
 
         layoutManager = LinearLayoutManager(this)
         lista?.layoutManager = layoutManager
+
+        val categoriaActualString = intent.getStringExtra(Categorias.CATEGORIA_ACTUAL)
+        val gson = Gson()
+        val categoriaActual = gson.fromJson(categoriaActualString,Category::class.java)
+
+        initToolbar(categoriaActual.name)
 
         if (foursquare?.hayToken()!!) {
             ubicacion = Ubicacion(this, object : UbicacionListener {
                 override fun ubicacionResponse(locationResult: LocationResult) {
                     val lat = locationResult.lastLocation.latitude.toString()
                     val lon = locationResult.lastLocation.longitude.toString()
-                    /*Toast.makeText(
-                        applicationContext,
-                        locationResult.lastLocation.latitude.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()*/
-                    foursquare?.obtenerVenues(lat, lon, object :
+                    val categoryId = categoriaActual.id
+
+                    foursquare?.obtenerVenues(lat, lon, categoryId, object :
                         ObtenerVenuesInterface {
                         override fun venuesGenerados(venues: ArrayList<Venue>) {
                             implementacionRecyclerView(venues)
@@ -69,10 +72,14 @@ class VenuesPorCategoria : AppCompatActivity() {
         }
     }
 
-    fun initToolbar(){
+    fun initToolbar(categoria: String){
         toolbar = findViewById(R.id.appToolbar)
-        toolbar?.setTitle(R.string.app_name)
+        toolbar?.setTitle(categoria)
         setSupportActionBar(toolbar)
+        var actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        toolbar?.setNavigationOnClickListener { finish() }
     }
 
     private fun implementacionRecyclerView(lugares:ArrayList<Venue>){
