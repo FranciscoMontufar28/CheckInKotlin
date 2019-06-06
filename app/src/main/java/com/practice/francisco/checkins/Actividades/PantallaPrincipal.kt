@@ -74,6 +74,8 @@ class PantallaPrincipal : AppCompatActivity() {
                     })
                 }
             })
+        }else{
+            foursquare?.regresarIniciarSesion()
         }
     }
 
@@ -138,11 +140,20 @@ class PantallaPrincipal : AppCompatActivity() {
                 return true
             }
             R.id.iconoFavoritos->{
-                foursquare?.obtenerVenuesDeLike(object : VenuesForLikeInterface{
-                    override fun venuesGenerados(venues: ArrayList<Venue>) {
-                        Log.d("VenuesForLike", venues.count().toString())
-                    }
-                })
+                val intent = Intent(this, Likes::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.iconoPerfil->{
+                val intent = Intent(this, Perfil ::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.iconoCerrarSesion->{
+                foursquare?.cerrarSesion()
+                val intent = Intent(this, Login::class.java)
+                startActivity(intent)
+                finish()
                 return true
             }
             else -> {

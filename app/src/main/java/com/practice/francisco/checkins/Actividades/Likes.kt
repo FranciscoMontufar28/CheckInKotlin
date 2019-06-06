@@ -10,18 +10,18 @@ import android.util.Log
 import android.view.View
 import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
-import com.practice.francisco.checkins.Foursquare.Category
 import com.practice.francisco.checkins.Foursquare.Foursquare
 import com.practice.francisco.checkins.Foursquare.Venue
 import com.practice.francisco.checkins.Interfaces.ObtenerVenuesInterface
 import com.practice.francisco.checkins.Interfaces.UbicacionListener
+import com.practice.francisco.checkins.Interfaces.VenuesForLikeInterface
 import com.practice.francisco.checkins.R
 import com.practice.francisco.checkins.RecyclerViewPrincipal.AdaptadorCustom
 import com.practice.francisco.checkins.RecyclerViewPrincipal.ClickListener
 import com.practice.francisco.checkins.RecyclerViewPrincipal.LongClickListener
 import com.practice.francisco.checkins.Utilidades.Ubicacion
 
-class VenuesPorCategoria : AppCompatActivity() {
+class Likes : AppCompatActivity() {
 
     var lista: RecyclerView? = null
     var adaptador: AdaptadorCustom? =null
@@ -30,12 +30,11 @@ class VenuesPorCategoria : AppCompatActivity() {
     ///Toolbar
     var toolbar: Toolbar? = null
 
-    var ubicacion: Ubicacion? = null
     var foursquare: Foursquare? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_venues_por_categoria)
+        setContentView(R.layout.activity_likes)
 
         foursquare = Foursquare(this, this)
         lista = findViewById(R.id.rvLugares)
@@ -44,28 +43,12 @@ class VenuesPorCategoria : AppCompatActivity() {
         layoutManager = LinearLayoutManager(this)
         lista?.layoutManager = layoutManager
 
-        val categoriaActualString = intent.getStringExtra(Categorias.CATEGORIA_ACTUAL)
-        val gson = Gson()
-        val categoriaActual = gson.fromJson(categoriaActualString,Category::class.java)
-
-        initToolbar(categoriaActual.name)
+        initToolbar()
 
         if (foursquare?.hayToken()!!) {
-            ubicacion = Ubicacion(this, object : UbicacionListener {
-                override fun ubicacionResponse(locationResult: LocationResult) {
-                    val lat = locationResult.lastLocation.latitude.toString()
-                    val lon = locationResult.lastLocation.longitude.toString()
-                    val categoryId = categoriaActual.id
-
-                    foursquare?.obtenerVenues(lat, lon, categoryId, object :
-                        ObtenerVenuesInterface {
-                        override fun venuesGenerados(venues: ArrayList<Venue>) {
-                            implementacionRecyclerView(venues)
-                            for (venue in venues) {
-                                Log.d("VENUE", venue.name)
-                            }
-                        }
-                    })
+            foursquare?.obtenerVenuesDeLike(object : VenuesForLikeInterface{
+                override fun venuesGenerados(venues: ArrayList<Venue>) {
+                    implementacionRecyclerView(venues)
                 }
             })
         }else{
@@ -73,9 +56,9 @@ class VenuesPorCategoria : AppCompatActivity() {
         }
     }
 
-    fun initToolbar(categoria: String){
+    fun initToolbar(){
         toolbar = findViewById(R.id.appToolbar)
-        toolbar?.setTitle(categoria)
+        toolbar?.setTitle(R.string.app_likes)
         setSupportActionBar(toolbar)
         var actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -111,17 +94,4 @@ class VenuesPorCategoria : AppCompatActivity() {
         lista?.adapter = adaptador
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        ubicacion?.onRequestPermissionResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        ubicacion?.inicializarUbicacion()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        ubicacion?.detenerActualizacionUbicacion()
-    }
 }

@@ -38,6 +38,11 @@ class Categorias : AppCompatActivity() {
         initToolbar()
 
         var fsqr = Foursquare(this, Categorias())
+
+        if(!fsqr?.hayToken()){
+            fsqr?.regresarIniciarSesion()
+        }
+
         fsqr.cargarCategorias(object : CategoriasVenuesInterface{
             override fun categoriasVenues(categorias: ArrayList<Category>) {
                 Log.d("Categorias", categorias.count().toString())

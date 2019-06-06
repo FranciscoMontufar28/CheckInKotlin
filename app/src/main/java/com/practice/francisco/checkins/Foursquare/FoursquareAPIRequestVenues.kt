@@ -73,7 +73,7 @@ class User{
     var friends: Friends? =null
     var tips: Tips? = null
     var photos: Photos? = null
-    var checkin : Checkins? = null
+    var checkins : Checkins? = null
 }
 
 class Photo: Icon(){

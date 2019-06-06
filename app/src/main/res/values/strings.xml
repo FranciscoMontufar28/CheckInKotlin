@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CheckIns</string>
     <string name="app_categories">Categorias</string>
+    <string name="app_likes">Likes</string>
+    <string name="app_perfil_amigos"> amigos</string>
+    <string name="app_perfil_tips"> tips</string>
+    <string name="app_perfil_fotos"> fotos</string>
 </resources>

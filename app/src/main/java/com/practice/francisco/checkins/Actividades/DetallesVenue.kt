@@ -7,12 +7,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.google.gson.Gson
 import com.practice.francisco.checkins.Foursquare.Foursquare
-import com.practice.francisco.checkins.Interfaces.UsuariosInterface
 import com.practice.francisco.checkins.R
-import com.practice.francisco.checkins.Foursquare.User
 import com.practice.francisco.checkins.Foursquare.Venue
 import kotlinx.android.synthetic.main.activity_detalles_venue.*
 import java.net.URLEncoder
@@ -85,6 +82,8 @@ import java.net.URLEncoder
                     .setNegativeButton("Cancelar", DialogInterface.OnClickListener { dialog, which ->  })
                     .show()
 
+            }else{
+                foursquare?.regresarIniciarSesion()
             }
         }
 

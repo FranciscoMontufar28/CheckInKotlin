@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.foursquare.android.nativeoauth.FoursquareOAuth
 import com.google.gson.Gson
+import com.practice.francisco.checkins.Actividades.Login
 import com.practice.francisco.checkins.Interfaces.*
 import com.practice.francisco.checkins.Mensajes.Errores
 import com.practice.francisco.checkins.Mensajes.Mensaje
@@ -110,6 +111,19 @@ class Foursquare(var activity: AppCompatActivity, var activityDestino: AppCompat
         val settings = activity.getSharedPreferences(SETTINGS, 0)
         val token = settings.getString(ACCESS_TOKEN, "")
         return token
+    }
+
+    fun cerrarSesion(){
+        val settings = activity.getSharedPreferences(SETTINGS, 0)
+        val editor = settings.edit()
+
+        editor.putString(ACCESS_TOKEN, "")
+        editor.apply()
+    }
+
+    fun regresarIniciarSesion(){
+        activity.startActivity(Intent(this.activity, Login::class.java))
+        activity.finish()
     }
 
     private fun guardarToken(token: String): Boolean {

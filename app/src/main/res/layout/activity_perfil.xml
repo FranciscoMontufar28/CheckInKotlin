@@ -5,8 +5,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".Actividades.VenuesPorCategoria">
+        tools:context=".Actividades.Perfil"
+        android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/appToolbar"
@@ -17,9 +17,20 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/Base.ThemeOverlay.AppCompat.Light"/>
 
-    <android.support.v7.widget.RecyclerView
+    <TextView
+            android:text="TextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rvLugares"/>
-
+            android:layout_height="wrap_content" android:id="@+id/tvNombre"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tvFriends"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tvTips"/>
+    <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tvFotos"/>
 </LinearLayout>
