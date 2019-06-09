@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground" android:orientation="vertical">
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/placeholder_venue"
+            android:id="@+id/ivFoto"
+            android:layout_weight="1" android:layout_marginTop="8dp" android:scaleType="centerCrop"/>
     <TextView
-            android:text="TextView"
+            android:text="Nombre Lugar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvNombre" android:paddingBottom="8dp" android:paddingTop="8dp" android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
+            android:id="@+id/tvNombre" android:paddingBottom="16dp" android:paddingTop="4dp" android:paddingLeft="16dp"
+            android:paddingRight="16dp" android:textAppearance="@style/AppTheme.TituloCelda"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="1">
+        <TextView
+                android:text="Categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/tvCategoryTemplate" android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:paddingBottom="4dp"
+                android:paddingLeft="16dp" android:paddingRight="16dp" android:paddingTop="4dp"/>
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/icono_ubicacion"
+                android:id="@+id/imageView3" android:layout_weight="0"
+                android:layout_marginTop="4dp"/>
+        <TextView
+                android:text="Estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:paddingBottom="4dp" android:paddingLeft="16dp" android:paddingRight="16dp"
+                android:paddingTop="4dp" android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/tvStateTemplate"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_weight="1">
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/icono_checkins"
+                android:id="@+id/imageView4" android:layout_weight="0"
+                android:layout_marginTop="4dp" android:layout_marginLeft="16dp"/>
+        <TextView
+                android:text="CheckIns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/tvCheckinTemplate" android:layout_weight="1"
+                android:paddingBottom="4dp" android:paddingLeft="16dp" android:paddingRight="16dp"
+                android:paddingTop="4dp" android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+    </LinearLayout>
 </LinearLayout>

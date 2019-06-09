@@ -14,4 +14,8 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="AppTheme.TituloCelda" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/primaryDarkColor</item>
+    </style>
+
 </resources>

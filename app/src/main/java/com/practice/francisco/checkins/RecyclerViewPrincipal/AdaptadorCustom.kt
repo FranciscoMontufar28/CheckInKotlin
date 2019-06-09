@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.practice.francisco.checkins.R
 import com.practice.francisco.checkins.Foursquare.Venue
+import kotlinx.android.synthetic.main.activity_detalles_venue.view.*
 import kotlinx.android.synthetic.main.template_venues.view.*
 
 class AdaptadorCustom(items:ArrayList<Venue>, var listener: ClickListener, var longClickListener: LongClickListener):RecyclerView.Adapter<AdaptadorCustom.ViewHolder>(){
@@ -32,6 +33,13 @@ class AdaptadorCustom(items:ArrayList<Venue>, var listener: ClickListener, var l
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val items = items?.get(position)
         holder.nombre?.text = items?.name!!
+        holder.state?.text = String.format("%s, %s", items?.location?.state, items?.location?.country)
+        if(items?.categories?.size!! > 0){
+        holder.category?.text = items?.categories?.get(0)?.name
+        }else{
+            holder.category?.setText(R.string.app_template_pantalla_principal_category)
+        }
+        holder.checkins?.text = items?.stats?.checkinsCount.toString()
 
         if (itemsSeleccionados?.contains(position)!!){
             holder.vista.setBackgroundColor(Color.LTGRAY)
@@ -88,11 +96,19 @@ class AdaptadorCustom(items:ArrayList<Venue>, var listener: ClickListener, var l
     class ViewHolder(vista:View, listener: ClickListener, longClickListener: LongClickListener):RecyclerView.ViewHolder(vista), View.OnClickListener, View.OnLongClickListener{
         var vista = vista
         var nombre:TextView? = null
+        var state:TextView? = null
+        var category:TextView? = null
+        var checkins:TextView? = null
 
         var listener:ClickListener? = null
         var longListener:LongClickListener? = null
+
         init {
             nombre = vista.tvNombre
+            category = vista.tvCategoryTemplate
+            state = vista.tvStateTemplate
+            checkins = vista.tvCheckinTemplate
+
             this.listener =  listener
             this.longListener = longClickListener
             vista.setOnClickListener(this)

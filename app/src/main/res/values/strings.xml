@@ -5,4 +5,6 @@
     <string name="app_perfil_amigos"> amigos</string>
     <string name="app_perfil_tips"> tips</string>
     <string name="app_perfil_fotos"> fotos</string>
+
+    <string name="app_template_pantalla_principal_category">Sin categoria</string>
 </resources>
